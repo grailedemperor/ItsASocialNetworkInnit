@@ -5,10 +5,10 @@ const thoughtSchema = require('./Thought');
 // Schema to create Student model
 const userSchema = new Schema(
   {
-    userId:{
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
+    // userId:{
+    //   type: Schema.Types.ObjectId,
+    //   default: () => new Types.ObjectId(),
+    // },
     username: {
       type: String,
       unique: true,
@@ -29,6 +29,7 @@ const userSchema = new Schema(
       virtuals: true,
       getters: true,
     },
+    id: false,
   }
 );
 

@@ -4,10 +4,10 @@ const reactionSchema = require('./Reaction')
 // Schema to create a course model
 const thoughtSchema = new Schema(
   {
-    thoughtId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
+    // thoughtId: {
+    //   type: Schema.Types.ObjectId,
+    //   default: () => new Types.ObjectId(),
+    // },
     thoughtText: {
       type: String,
       required: true,
@@ -32,6 +32,7 @@ const thoughtSchema = new Schema(
       getters: true,
       virtuals: true,
     },
+    id: false,
   }
 );
 
