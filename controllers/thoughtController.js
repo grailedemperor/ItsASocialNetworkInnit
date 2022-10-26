@@ -1,4 +1,4 @@
-const { User, Thought, Reaction } = require('../models');
+const { User, Thought} = require('../models');
 
 module.exports = {
   // Get all thoughts
@@ -54,14 +54,14 @@ module.exports = {
   },
   // Delete a Thought
   removeThought(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.thoughtId })
+    User.findOneAndUpdate(
+      { thoughts: req.params.thoughtId },
+      { $pull: { thoughts: req.params.thoughtId} },
+      { new: true }
+    )
       .then((thought) =>
-        !thought
-          ? User.findOneAndUpdate(
-            { thoughts: req.params.thoughtId },
-            { $pull: { thoughts: req.params.thoughtId } },
-            { new: true }
-          )
+        typeof thought != 'undefined'
+          ? Thought.findOneAndRemove({ _id: req.params.thoughtId })
           : res.status(404).json({ message: 'Thought could not be deleted' })
       )
       .then(() => res.json({ message: 'Thought successfully deleted' }))
@@ -70,7 +70,7 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Add an assignment to a student
+  // Add a reaction
  addReaction(req, res) {
     console.log('You are adding a reaction');
     console.log(req.body);
@@ -82,29 +82,21 @@ module.exports = {
     )
       .then((thought) =>
         !thought
-          ? res
-              .status(404)
-              .json({ message: 'No thoughts found with that ID :(' })
+          ? res.status(404).json({ message: 'No thoughts found with that ID :(' })
           : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove assignment from a student
+  // Remove a reaction
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { reactions: req.body.reactionId } },
+      { $pull: { reactions: {_id: req.params.reactionId} } },
       { runValidators: true, new: true },
       //{ new: true }
     )
-      .then((thought) =>
-        !thought
-          ? res
-              .status(404)
-              .json({ message: 'No thoughts found with that ID :(' })
-          : res.json(thought)
-      )
-      .catch((err) => res.status(500).json(err));
+    .then((thought) => res.json(thought))
+    .catch((err) => res.status(500).json(err));
   },
 };
  
