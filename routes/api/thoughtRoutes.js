@@ -12,22 +12,25 @@ const {
 // /api/thoughts
 router.route('/')
   .get(getThoughts)
-  .post(addThought);
+  .post(addThought)
+
 // GET all thoughts DONE
 // POST a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field) DONE
-
+// GET a thought by its id DONE
+// PUT to update a thought by its id DONE
+// DELETE a thought by its id DONE
 
 // /api/thoughts/:thoughtsId
-router.route('/:thoughtsId')
-  .get(getSingleThought)
-  .put(updateThought)
-  .delete(removeThought);
+router.route('/:thoughtId')
+   .get(getSingleThought)
+   .put(updateThought)
+   .delete(removeThought);
 // GET a thought by its id DONE
 // PUT to update a thought by its id DONE
 // DELETE a thought by its id
 
 // /api/thoughts/:thoughtsId/reactions
-router.route('/:thoughtsId/reactions')
+router.route('/:thoughtId/reactions')
   .post(addReaction)
   .delete(removeReaction);
 // POST to create a reaction stored in a single thought's reactions array field DONE
